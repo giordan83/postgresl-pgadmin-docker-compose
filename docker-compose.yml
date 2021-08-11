@@ -1,0 +1,44 @@
+version: '3'
+services:
+  #####################
+  # Postgres Database #
+  #####################
+  database:
+    image: postgres:12
+    container_name: database
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: local!Passw0rd
+      PGDATA: /var/lib/postgresql/data/pgdata
+    networks:
+      - postgres-network
+    ports:
+      - 5432:5432
+    volumes:
+      - 'postgresdata:/var/lib/postgresql/data/pgdata'
+  ########################
+  # PG-Admin Application #
+  ########################
+  pgadmin:
+    image: dpage/pgadmin4:5.3
+    container_name: pgadmin
+    depends_on:
+      - database
+    networks:
+      - postgres-network
+    ports:
+    - 80:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "postgres@email.comm"
+      PGADMIN_DEFAULT_PASSWORD: "Passw0rd"
+    volumes:
+      - pgadmindata:/var/lib/pgadmin
+volumes:
+  postgresdata:
+  pgadmindata:
+
+networks:
+  postgres-network:
+    name: "postgres-network"
+    driver: bridge
