@@ -16,7 +16,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - 'postgresdata:/var/lib/postgresql/data/pgdata'
+      - 'postgres-data:/var/lib/postgresql/data/pgdata'
   ########################
   # PG-Admin Application #
   ########################
@@ -33,12 +33,11 @@ services:
       PGADMIN_DEFAULT_EMAIL: "postgres@email.comm"
       PGADMIN_DEFAULT_PASSWORD: "Passw0rd"
     volumes:
-      - pgadmindata:/var/lib/pgadmin
+      - pgadmin-data:/var/lib/pgadmin
 volumes:
-  postgresdata:
-  pgadmindata:
+  postgres-data:
+  pgadmin-data:
 
 networks:
   postgres-network:
-    name: "postgres-network"
     driver: bridge
